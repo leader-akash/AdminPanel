@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useApi from '../../hooks/useApi';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, Alert, Typography } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, Alert, Typography, Button } from '@mui/material';
 
-const UserManagement = ({ setToken }) => {
+const UserManagement = ({ setToken, setRole }) => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -27,6 +27,15 @@ const UserManagement = ({ setToken }) => {
     }
   };
 
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    setToken('');
+    setRole('');
+    navigate('/login');
+  };
+
   useEffect(() => {
     loadUsers();
   }, []);
@@ -34,8 +43,8 @@ const UserManagement = ({ setToken }) => {
   return (
     <div className="container mx-auto p-4">
       <div className='flex justify-between py-4 flex-div'>
-      <Typography variant="h5" className="mb-6">User Management</Typography>
-      <button onClick={() => navigate("/admin/tasks")}>Go To Tasks</button>
+        <Typography variant="h5" className="mb-6">User Management</Typography>
+        <button onClick={() => navigate("/admin/tasks")}>Go To Tasks</button>
       </div>
       {error && <Alert severity="error" className="mb-4">{error}</Alert>}
       <TableContainer component={Paper} className="shadow">
@@ -67,6 +76,10 @@ const UserManagement = ({ setToken }) => {
           </TableBody>
         </Table>
       </TableContainer>
+
+       <Button className='content-margin' variant="contained" color="error" onClick={handleLogout}>
+        Logout
+      </Button>
     </div>
   );
 };

@@ -53,19 +53,10 @@ const useApi = () => {
     await axiosInstance.post('/tasks/dummy');
   }, []);
 
-  const checkUserStatus = useCallback(async () => {
-    try {
-      const { data } = await axiosInstance.get('/auth/check-status');
-      return data.status;
-    } catch (error) {
-      if (error.response?.status === 401 || error.response?.data?.error === 'User is inactive') {
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
-        navigate('/login');
-      }
-      throw error;
-    }
-  }, [navigate]);
+const getUserDetails = useCallback(async () => {
+    const { data } = await axiosInstance.get('/users/user-detail');
+    return data;
+  }, []);
 
   return {
     login,
@@ -75,7 +66,7 @@ const useApi = () => {
     fetchTasks,
     updateTasksStatus,
     createDummyTasks,
-    checkUserStatus,
+    getUserDetails,
   };
 };
 
