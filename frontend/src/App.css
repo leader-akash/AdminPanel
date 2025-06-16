@@ -5,17 +5,23 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.flex-div{
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+.content-margin{
+  margin: 1rem 0 !important; 
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+
+.pagination-center{
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.margin-left{
+  margin:  5px !important;
 }
 
 @keyframes logo-spin {
