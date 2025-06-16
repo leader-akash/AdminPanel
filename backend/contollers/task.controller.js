@@ -13,8 +13,9 @@ export const createDummyTasks = async (req, res) => {
       createdBy: user._id,
     }));
     await Task.insertMany(tasks);
-    res.status(201).json({ message: 'Dummy tasks created' });
+    res.status(201).json({ message: ' Dummy tasks created' });
   } catch (error) {
+    console.log('errr', error)
     res.status(400).json({ error: error.message });
   }
 };

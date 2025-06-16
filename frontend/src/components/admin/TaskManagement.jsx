@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useApi from '../../hooks/useApi';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Checkbox, Button, TextField, Alert, Typography, Pagination } from '@mui/material';
 
-const TaskManagement = ({ setToken }) => {
+const TaskManagement = ({ setToken, setRole }) => {
   const [tasks, setTasks] = useState([]);
   const [totalTasks, setTotalTasks] = useState(0);
   const [page, setPage] = useState(1);
@@ -13,6 +13,7 @@ const TaskManagement = ({ setToken }) => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { fetchTasks, updateTasksStatus, createDummyTasks } = useApi();
+
 
   const loadTasks = async () => {
     try {
@@ -76,9 +77,18 @@ const TaskManagement = ({ setToken }) => {
     setPage(value);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    setToken('');
+    setRole('');
+    navigate('/login');
+  };
+
   useEffect(() => {
     loadTasks();
   }, [page]);
+
 
   const totalPages = Math.ceil(totalTasks / limit);
 
@@ -97,16 +107,16 @@ const TaskManagement = ({ setToken }) => {
           {selectAll ? 'Deselect All Tasks' : 'Select All Tasks'}
         </Button> */}
       </div>
-      <Typography style={{margin: "1rem"}}>Selected Tasks: {selectedTasks.size}</Typography>
+      <Typography style={{ margin: "1rem" }}>Selected Tasks: {selectedTasks.size}</Typography>
       {selectedTasks.size > 0 && (
         <div className="mb-4 flex space-x-2">
-          <Button  style={{margin: '5px'}} variant="contained" color="primary" onClick={() => handleUpdateTasksStatus('pending')}>
+          <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={() => handleUpdateTasksStatus('pending')}>
             Set Pending
           </Button>
-          <Button  style={{margin: '5px'}} variant="contained" color="warning" onClick={() => handleUpdateTasksStatus('in_progress')}>
+          <Button style={{ margin: '5px' }} variant="contained" color="warning" onClick={() => handleUpdateTasksStatus('in_progress')}>
             Set In Progress
           </Button>
-          <Button  style={{margin: '5px'}} variant="contained" color="success" onClick={() => handleUpdateTasksStatus('completed')}>
+          <Button style={{ margin: '5px' }} variant="contained" color="success" onClick={() => handleUpdateTasksStatus('completed')}>
             Set Completed
           </Button>
         </div>
@@ -142,7 +152,7 @@ const TaskManagement = ({ setToken }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <div className="mt-4 flex justify-center">
+      <div className="mt-4 flex justify-center content-margin  pagination-center">
         <Pagination
           count={totalPages}
           page={page}
@@ -152,6 +162,11 @@ const TaskManagement = ({ setToken }) => {
           boundaryCount={2}
         />
       </div>
+
+
+      <Button variant="contained" color="error" onClick={handleLogout}>
+        Logout
+      </Button>
     </div>
   );
 };

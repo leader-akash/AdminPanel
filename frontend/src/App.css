@@ -11,6 +11,19 @@
   margin: 1rem 0;
 }
 
+.content-margin{
+  margin: 1rem 0 !important; 
+}
+
+.pagination-center{
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.margin-left{
+  margin:  5px !important;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);

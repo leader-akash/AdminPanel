@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useApi from '../../hooks/useApi';
-import { TextField, Button, Alert, Typography, Box } from '@mui/material';
+import { TextField, Button, Alert, Typography } from '@mui/material';
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -21,10 +21,10 @@ const Register = () => {
   };
 
   return (
-    <Box className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
-      <Typography variant="h5" className="text-center mb-4">Register</Typography>
-      {error && <Alert severity="error" className="mb-4">{error}</Alert>}
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+      <Typography variant="h5" className="text-center mb-4 content-margin">Register</Typography>
+      {error && <Alert severity="error" className="mb-4 content-margin">{error}</Alert>}
+      <form onSubmit={handleSubmit} className="space-y-4 content-margin">
         <TextField
           fullWidth
           label="Email"
@@ -32,6 +32,7 @@ const Register = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           variant="outlined"
+          className='content-margin'
         />
         <TextField
           fullWidth
@@ -40,24 +41,25 @@ const Register = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           variant="outlined"
+          className='content-margin'
         />
         <Button
           fullWidth
           variant="contained"
           color="primary"
           type="submit"
-          className="mt-4"
+          className="mt-4 content-margin"
         >
           Register
         </Button>
-        <Typography className="text-center mt-4">
+        <Typography className="text-center mt-4 content-margin">
           Already have an account?{' '}
           <a href="/login" className="text-blue-600 hover:underline">
             Login
           </a>
         </Typography>
       </form>
-    </Box>
+    </div>
   );
 };
 

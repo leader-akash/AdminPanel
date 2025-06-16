@@ -24,3 +24,19 @@ export const updateUserStatus = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+
+export const getUserDetails = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select('email status role');
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    if (user.status === 'inactive') {
+      return res.status(403).json({ error: 'User is inactive' });
+    }
+    res.json({ email: user.email, status: user.status, role: user.role });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
