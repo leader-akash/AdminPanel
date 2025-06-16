@@ -2,11 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useCallback } from 'react';
 
+const apiUrl = import.meta.env.VITE_APP_BACKEND_URL
 const useApi = () => {
   const navigate = useNavigate();
 
   const axiosInstance = axios.create({
-    baseURL: 'http://localhost:5000/api',
+    baseURL: apiUrl,
     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
   });
 
