@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://admin-pane.vercel.app/api/$1"
+    }
+  ]
+}
