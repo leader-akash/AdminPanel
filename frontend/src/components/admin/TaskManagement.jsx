@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useApi from '../../hooks/useApi';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Checkbox, Button, TextField, Alert, Typography, Box, Pagination } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Checkbox, Button, TextField, Alert, Typography, Pagination } from '@mui/material';
 
 const TaskManagement = ({ setToken }) => {
   const [tasks, setTasks] = useState([]);
   const [totalTasks, setTotalTasks] = useState(0);
   const [page, setPage] = useState(1);
-  const [pageInput, setPageInput] = useState('');
   const limit = 5;
   const [selectedTasks, setSelectedTasks] = useState(new Map());
   const [selectAll, setSelectAll] = useState(false);
@@ -73,17 +72,8 @@ const TaskManagement = ({ setToken }) => {
     }
   };
 
-  const handlePageInput = (e) => {
-    const value = e.target.value;
-    if (value === '' || (/^\d+$/.test(value) && parseInt(value) >= 1 && parseInt(value) <= Math.ceil(totalTasks / limit))) {
-      setPageInput(value);
-    }
-  };
-
-  const handlePageJump = () => {
-    if (pageInput && parseInt(pageInput) !== page) {
-      setPage(parseInt(pageInput));
-    }
+  const handlePageChange = (event, value) => {
+    setPage(value);
   };
 
   useEffect(() => {
@@ -93,27 +83,33 @@ const TaskManagement = ({ setToken }) => {
   const totalPages = Math.ceil(totalTasks / limit);
 
   return (
-    <Box className="container mx-auto p-4">
-      <Typography variant="h5" className="mb-6">Task Management</Typography>
+    <div className="container mx-auto p-4">
+      <div className='flex justify-between py-4 flex-div'>
+        <Typography variant="h5" className="mb-6">Task Management</Typography>
+        <button onClick={() => navigate("/admin/users")}>Go To Users</button>
+      </div>
       {error && <Alert severity="error" className="mb-4">{error}</Alert>}
-      <Box className="mb-4 flex space-x-4">
+      <div className="mb-4 flex space-x-4 py-4">
         <Button variant="contained" color="success" onClick={handleCreateDummyTasks}>
           Create Dummy Tasks
         </Button>
-      </Box>
-      <Typography>Selected Tasks: {selectedTasks.size}</Typography>
+        {/* <Button variant="contained" color="secondary" onClick={handleSelectAll}>
+          {selectAll ? 'Deselect All Tasks' : 'Select All Tasks'}
+        </Button> */}
+      </div>
+      <Typography style={{margin: "1rem"}}>Selected Tasks: {selectedTasks.size}</Typography>
       {selectedTasks.size > 0 && (
-        <Box className="mb-4 flex space-x-2">
-          <Button variant="contained" color="primary" onClick={() => handleUpdateTasksStatus('pending')}>
+        <div className="mb-4 flex space-x-2">
+          <Button  style={{margin: '5px'}} variant="contained" color="primary" onClick={() => handleUpdateTasksStatus('pending')}>
             Set Pending
           </Button>
-          <Button variant="contained" color="warning" onClick={() => handleUpdateTasksStatus('in_progress')}>
+          <Button  style={{margin: '5px'}} variant="contained" color="warning" onClick={() => handleUpdateTasksStatus('in_progress')}>
             Set In Progress
           </Button>
-          <Button variant="contained" color="success" onClick={() => handleUpdateTasksStatus('completed')}>
+          <Button  style={{margin: '5px'}} variant="contained" color="success" onClick={() => handleUpdateTasksStatus('completed')}>
             Set Completed
           </Button>
-        </Box>
+        </div>
       )}
       <TableContainer component={Paper} className="shadow">
         <Table>
@@ -146,35 +142,17 @@ const TaskManagement = ({ setToken }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Box className="mt-4 flex justify-between items-center">
-        <Button
-          variant="outlined"
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-        >
-          Previous
-        </Button>
-        <Box className="flex items-center space-x-2">
-          <Typography>Page {page} of {totalPages}</Typography>
-          <TextField
-            size="small"
-            value={pageInput}
-            onChange={handlePageInput}
-            onBlur={handlePageJump}
-            onKeyPress={(e) => e.key === 'Enter' && handlePageJump()}
-            placeholder="Go to page"
-            className="w-24"
-          />
-        </Box>
-        <Button
-          variant="outlined"
-          disabled={page === totalPages}
-          onClick={() => setPage(page + 1)}
-        >
-          Next
-        </Button>
-      </Box>
-    </Box>
+      <div className="mt-4 flex justify-center">
+        <Pagination
+          count={totalPages}
+          page={page}
+          onChange={handlePageChange}
+          color="primary"
+          siblingCount={2}
+          boundaryCount={2}
+        />
+      </div>
+    </div>
   );
 };
 

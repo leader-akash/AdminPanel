@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useApi from '../../hooks/useApi';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, Alert, Typography, Box } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, Alert, Typography } from '@mui/material';
 
 const UserManagement = ({ setToken }) => {
   const [users, setUsers] = useState([]);
@@ -32,8 +32,11 @@ const UserManagement = ({ setToken }) => {
   }, []);
 
   return (
-    <Box className="container mx-auto p-4">
+    <div className="container mx-auto p-4">
+      <div className='flex justify-between py-4 flex-div'>
       <Typography variant="h5" className="mb-6">User Management</Typography>
+      <button onClick={() => navigate("/admin/tasks")}>Go To Tasks</button>
+      </div>
       {error && <Alert severity="error" className="mb-4">{error}</Alert>}
       <TableContainer component={Paper} className="shadow">
         <Table>
@@ -64,7 +67,7 @@ const UserManagement = ({ setToken }) => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Box>
+    </div>
   );
 };
 
